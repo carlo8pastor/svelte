@@ -31,13 +31,13 @@
       return json.results;
     } catch (error) {
       console.error("Error fetching movies:", error);
-      return []; // Return an empty array on error to avoid breaking the application.
+      return [];
     }
   };
 
   onMount(async () => {
     const fetchMovies = async () => {
-      // Fetch movies from the first and second pages.
+
       const moviesPage1 = await getMoviesWithDetails(1);
       const moviesPage2 = await getMoviesWithDetails(2);
 
