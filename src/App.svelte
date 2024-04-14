@@ -19,7 +19,7 @@
       'da': 'Danish', 'fi': 'Finnish', 'pl': 'Polish', 'hu': 'Hungarian',
       'cs': 'Czech', 'ro': 'Romanian', 'el': 'Greek', 'he': 'Hebrew',
       'th': 'Thai', 'id': 'Indonesian', 'vi': 'Vietnamese',
-      // ... other languages
+
     };
     return languageMap[languageCode] || languageCode;
   };
@@ -85,7 +85,7 @@
   </header>
   <div class="movie-list">
     {#each $movieList as movie (movie.id)}
-      <div class="movie-card" key={movie.id}>
+      <div class="movie-card">
         <img class="movie-card-image"
              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
              alt={movie.title}
@@ -132,7 +132,6 @@
     justify-content: center;
     gap: 20px;
   }
-
 
 
   .movie-card-image {
