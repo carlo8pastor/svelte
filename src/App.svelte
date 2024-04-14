@@ -4,6 +4,9 @@
 
   let movieList = writable([]);
 
+  const BASE_URL = "https://api.themoviedb.org/3";
+  const API_KEY = "d17f4fce1773d642f23563b737b4f7b3";
+
   const formatRuntime = (runtime) => {
     const hours = Math.floor(runtime / 60);
     const minutes = runtime % 60;
@@ -19,14 +22,13 @@
       'da': 'Danish', 'fi': 'Finnish', 'pl': 'Polish', 'hu': 'Hungarian',
       'cs': 'Czech', 'ro': 'Romanian', 'el': 'Greek', 'he': 'Hebrew',
       'th': 'Thai', 'id': 'Indonesian', 'vi': 'Vietnamese',
-
     };
     return languageMap[languageCode] || languageCode;
   };
 
   const getMoviesWithDetails = async (page) => {
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=d17f4fce1773d642f23563b737b4f7b3&page=${page}`);
+      const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&page=${page}`);
       const json = await res.json();
       return json.results;
     } catch (error) {
@@ -37,18 +39,27 @@
 
   onMount(async () => {
     const fetchMovies = async () => {
-
       const moviesPage1 = await getMoviesWithDetails(1);
       const moviesPage2 = await getMoviesWithDetails(2);
 
       const combinedMovies = [...moviesPage1, ...moviesPage2];
 
-      const moviesWithDetailsPromises = combinedMovies.map(async (movie) => {
-        const detailsRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=d17f4fce1773d642f23563b737b4f7b3`);
+
+      const seenIds = new Set();
+      const uniqueMovies = combinedMovies.filter(movie => {
+        if (seenIds.has(movie.id)) {
+          return false;
+        }
+        seenIds.add(movie.id);
+        return true;
+      });
+
+      const moviesWithDetailsPromises = uniqueMovies.map(async (movie) => {
+        const detailsRes = await fetch(`${BASE_URL}/movie/${movie.id}?api_key=${API_KEY}`);
         const detailsJson = await detailsRes.json();
-        const creditsRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=d17f4fce1773d642f23563b737b4f7b3`);
+        const creditsRes = await fetch(`${BASE_URL}/movie/${movie.id}/credits?api_key=${API_KEY}`);
         const creditsJson = await creditsRes.json();
-        const videosRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=d17f4fce1773d642f23563b737b4f7b3`);
+        const videosRes = await fetch(`${BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`);
         const videosJson = await videosRes.json();
 
         const director = creditsJson.crew.find(member => member.job === 'Director');
@@ -133,16 +144,14 @@
     gap: 20px;
   }
 
-
   .movie-card-image {
     width: 50%;
     height: auto;
     border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
   }
-
 
   .movie-card-content {
     padding: 16px;
