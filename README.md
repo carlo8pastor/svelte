@@ -34,5 +34,5 @@ Type the following commands in your computer's terminal:
     npm run dev
     ```
 
-5. Open your browser and visit http://localhost:5000 to view the Svelte webpage.
+5. Open your browser and visit http://localhost:5173 to view the Svelte webpage.
 
