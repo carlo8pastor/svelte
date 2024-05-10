@@ -8,7 +8,7 @@ The live webpage can be accessed [here](https://carlo8pastor.github.io/svelte/).
 
 ## If Reader wants to Run the Svelte Webpage Locally:
 
-To run the Svelte webpage locally, follow these steps:
+Type the following commands in your computer's terminal:
 
 1. Clone this repository to your local machine:
 
