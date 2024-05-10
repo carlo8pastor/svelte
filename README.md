@@ -1,1 +1,1 @@
-![Alt Text](./screenshot.jpg)
+![Svelte website screenshot](./screenshot.png)
